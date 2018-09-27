@@ -1,41 +1,35 @@
 module.exports = function check(str, bracketsConfig) {
 
- var stack = [];
+ let stack = [];
  for (index = 0, len = str.length; index<len; index++){
-	 
-	bracketsConfig.forEach(function(entry) 
-	{
-		entry.forEach(function(brack)
-		{
-				//brack is element of const
-				if	(str[index] == brack)
-				{
-						if (entry.indexOf(brack) == 0 )
-						{
-						stack.push(str[index]);
-						}
-						else if ((entry.indexOf(brack) ==1))
-						{
-							stack.pop();
-						}
-					 
-				} //if str has new symbol in sequensies
-				else {
-					return false;
-				}
-//I need to made cycle with the first bracket == the second, and I'll do this 
-			
-		});
-		
-});
+	bracketsConfig.forEach(function(entry, index1) 
+	{ 	
+		const firstBrack = entry[0];
+		const secondBrack = entry[1];
+		const item = str[index];
 
- }
- console.log(stack);
-  if (stack.length == 0){
-	  return true;
-  }
-  else {
-	  return false;
-	  }
- 
+		if (firstBrack !== secondBrack)
+		{
+			if (item == firstBrack  ) 
+				stack.push(item);
+			else if (item == secondBrack &&  (stack[stack.length-1] ==  firstBrack) && stack.length !== 0)
+				stack.pop();
+			else if (item == secondBrack )
+				stack.push(item);
+		} else if (firstBrack == secondBrack )
+		{
+	
+			if (stack[stack.length-1]  != firstBrack && item == firstBrack )
+				stack.push(item);
+			else if (stack[stack.length-1]  == secondBrack && item == firstBrack  )
+				stack.pop();
+		}
+	});
+}	
+	if (stack.length == 0)
+		return true;
+	else 
+		return false;
 }
+
+
